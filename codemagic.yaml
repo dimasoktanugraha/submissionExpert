@@ -1,19 +1,12 @@
-#
-//  codemagic.yaml
-//  SubmissionExpert
-//
-//  Created by Dimas Oktanugraha on 23/09/25.
-//
-
 workflows:
-  ios-project-debug: # workflow ID
-    name: iOS debug # workflow name
+  ios-project-debug:
+    name: iOS debug
     environment:
       xcode: latest
       cocoapods: default
       vars:
-          XCODE_PROJECT: "SubmissionExpert.xcodeproj" # Isikan nama project Anda.
-          XCODE_SCHEME: "SubmissionExpert" # Isikan nama scheme project Anda.
+          XCODE_PROJECT: "SubmissionExpert.xcodeproj"
+          XCODE_SCHEME: "SubmissionExpert"
     scripts:
       - name: Run tests
         script: |
