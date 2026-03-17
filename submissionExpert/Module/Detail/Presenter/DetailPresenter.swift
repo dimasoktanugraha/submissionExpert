@@ -1,39 +1,47 @@
 //
-//  DetailViewModel.swift
-//  submissionfundamental1
+//  DetailPresenter.swift
+//  SubmissionExpert
 //
-//  Created by Dimas Oktanugraha on 10/09/25.
+//  Created by Dimas Oktanugraha on 06/11/25.
 //
 
 import SwiftUI
 import Alamofire
 import Combine
+import CorePackage
+import Shared
+import Detail
+import Favorite
 
-class GameDetailPresenter: ObservableObject {
+class DetailPresenter: ObservableObject {
+  private let detailUseCase: Interactor<Any, DetailDomainModel, GetDetailRepository<GetDetailRemoteDataSource, DetailTransformer>>
+  private let favoriteUseCase: FavoriteInteractor
   
-  private let gameDetailUseCase: GameDetailUseCase
   private var cancellables: Set<AnyCancellable> = []
 
-  @Published var game: GameDetailModel?
+  @Published var game: DetailDomainModel?
   @Published var errorMessage: String = ""
-  @Published var loadingState: Bool = false
+  @Published var isLoading: Bool = false
+  @Published var isError: Bool = false
   @Published var isFavorite = false
 
-  init(gameDetailUseCase: GameDetailUseCase) {
-    self.gameDetailUseCase = gameDetailUseCase
-    getGameDetail()
+  init(detailUseCase: Interactor<Any, DetailDomainModel, GetDetailRepository<GetDetailRemoteDataSource, DetailTransformer>>,
+       favoriteUseCase: FavoriteInteractor) {
+    self.detailUseCase = detailUseCase
+    self.favoriteUseCase = favoriteUseCase
   }
   
   func getGameDetail() {
-    loadingState = true
-    gameDetailUseCase.getGameDetail()
+    isLoading = true
+    detailUseCase.execute(request: nil)
       .receive(on: RunLoop.main)
       .sink(receiveCompletion: { completion in
         switch completion {
         case .failure:
+          self.isError = true
           self.errorMessage = String(describing: completion)
         case .finished:
-          self.loadingState = false
+          self.isLoading = false
         }
       }, receiveValue: { game in
         self.game = game
@@ -43,16 +51,18 @@ class GameDetailPresenter: ObservableObject {
    }
   
     func checkFavorite(id: Int) {
-      gameDetailUseCase.isGameExist(id: id)
+      print("Checking favorite")
+      favoriteUseCase.isFavorite(id: id)
         .receive(on: RunLoop.main)
         .sink(receiveCompletion: { completion in
           switch completion {
           case .failure:
             self.errorMessage = String(describing: completion)
           case .finished:
-            self.loadingState = false
+            self.isLoading = false
           }
         }, receiveValue: { exists in
+          print("isFavorite : ", exists)
           self.isFavorite = exists
         })
         .store(in: &cancellables)
@@ -68,15 +78,19 @@ class GameDetailPresenter: ObservableObject {
       }
     }
   
-    private func addFavorite(game: GameDetailModel) {
-      gameDetailUseCase.addFavorite(game: game)
+    private func addFavorite(game: DetailDomainModel) {
+      let data = GameDomainModel(
+        id: game.id, name: game.name, released: game.released, backgroundImage: game.backgroundImage, rating: game.rating
+      )
+      
+      favoriteUseCase.addFavorite(game: data)
         .receive(on: RunLoop.main)
         .sink(receiveCompletion: { completion in
           switch completion {
           case .failure:
             self.errorMessage = String(describing: completion)
           case .finished:
-            self.loadingState = false
+            self.isLoading = false
           }
         }, receiveValue: { _ in
           self.isFavorite.toggle()
@@ -87,14 +101,15 @@ class GameDetailPresenter: ObservableObject {
     private func deleteFavorite(id: Int?) {
       guard let id = id else { return }
       
-      gameDetailUseCase.deleteFavorite(id: id)
+      favoriteUseCase.deleteFavorite(id: id)
         .receive(on: RunLoop.main)
         .sink(receiveCompletion: { completion in
           switch completion {
           case .failure:
+            self.isLoading = true
             self.errorMessage = String(describing: completion)
           case .finished:
-            self.loadingState = false
+            self.isLoading = false
           }
         }, receiveValue: { _ in
           self.isFavorite.toggle()

@@ -7,9 +7,10 @@
 
 import Foundation
 import Combine
+import Shared
 
 protocol GameUseCase {
-  func getGames(query: String) -> AnyPublisher<[GameModel], Error>
+  func getGames(query: String) -> AnyPublisher<[GameDomainModel], Error>
 }
 
 class GameInteractor: GameUseCase {
@@ -20,7 +21,7 @@ class GameInteractor: GameUseCase {
     self.repository = repository
   }
 
-  func getGames(query: String) -> AnyPublisher<[GameModel], Error> {
+  func getGames(query: String) -> AnyPublisher<[GameDomainModel], Error> {
     return repository.getGames(query: query)
   }
 

@@ -7,6 +7,7 @@
 
 import Testing
 import Combine
+import Shared
 
 @testable import SubmissionExpert
 
@@ -20,8 +21,8 @@ struct GameInteractorTests {
       let interactor = GameInteractor(repository: mockRepository)
 
       let expectedGames = [
-          GameModel(id: 1, name: "GTA-V", released: "2025-01-01", backgroundImage: "image.png", rating: 4.9),
-          GameModel(id: 2, name: "ML", released: "2025-01-02", backgroundImage: "mimage.png", rating: 4.5)
+          GameDomainModel(id: 1, name: "GTA-V", released: "2025-01-01", backgroundImage: "image.png", rating: 4.9),
+          GameDomainModel(id: 2, name: "ML", released: "2025-01-02", backgroundImage: "mimage.png", rating: 4.5)
       ]
       mockRepository.gamesToReturn = expectedGames
 

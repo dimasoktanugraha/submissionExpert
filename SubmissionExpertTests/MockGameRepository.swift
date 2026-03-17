@@ -6,12 +6,13 @@
 //
 
 import Combine
+import Shared
 
 @testable import SubmissionExpert
 class MockGameRepository: GameRepositoryProtocol {
 
-  var gamesToReturn: [GameModel] = []
-  var favoritesToReturn: [GameModel] = []
+  var gamesToReturn: [GameDomainModel] = []
+  var favoritesToReturn: [GameDomainModel] = []
   var gameDetailToReturn: GameDetailModel = GameDetailModel(
     id: 0,
     name: "",
@@ -23,7 +24,7 @@ class MockGameRepository: GameRepositoryProtocol {
   var isExistToReturn: Bool = true
   var errorToReturn: Error?
   
-  func getGames(query: String) -> AnyPublisher<[SubmissionExpert.GameModel], any Error> {
+  func getGames(query: String) -> AnyPublisher<[GameDomainModel], any Error> {
     if let error = errorToReturn {
         return Fail(error: error).eraseToAnyPublisher()
     } else {
@@ -33,7 +34,7 @@ class MockGameRepository: GameRepositoryProtocol {
     }
   }
   
-  func getGameDetail(id: Int) -> AnyPublisher<SubmissionExpert.GameDetailModel, any Error> {
+  func getGameDetail(id: Int) -> AnyPublisher<GameDetailModel, any Error> {
     if let error = errorToReturn {
       return Fail(error: error).eraseToAnyPublisher()
     } else {

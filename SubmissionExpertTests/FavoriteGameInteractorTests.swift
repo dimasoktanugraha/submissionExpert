@@ -7,6 +7,7 @@
 
 import Testing
 import Combine
+import Shared
 @testable import SubmissionExpert
 
 struct FavoriteGameInteractorTests {

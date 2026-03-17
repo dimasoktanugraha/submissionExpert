@@ -6,15 +6,16 @@
 //
 
 import Foundation
+import Shared
 
 final class GameMapper {
-
+  
   static func mapGameResponsesToDomains(
     input gameResponses: [GameResponse]
-  ) -> [GameModel] {
+  ) -> [GameDomainModel] {
 
     return gameResponses.map { result in
-      return GameModel(
+      return GameDomainModel(
         id: result.id ?? 0,
         name: result.name ?? "Unknow",
         released: result.released ?? "",
@@ -26,9 +27,9 @@ final class GameMapper {
   
   static func mapGameEntitiesToDomains(
     input gameEntities: [GameEntity]
-  ) -> [GameModel] {
+  ) -> [GameDomainModel] {
     return gameEntities.map { result in
-      return GameModel(
+      return GameDomainModel(
         id: result.id,
         name: result.name,
         released: result.released,
@@ -50,47 +51,5 @@ final class GameMapper {
       newGame.rating = result.rating ?? 0.0
       return newGame
     }
-  }
-  
-  static func mapGameDetailResponsesToDomains(
-    input detailResponses: GameDetailResponse
-  ) -> GameDetailModel {
-
-    return GameDetailModel(
-      id: detailResponses.id ?? 0,
-      name: detailResponses.name ?? "Unknow",
-      released: detailResponses.released ?? "",
-      backgroundImage: detailResponses.backgroundImage ?? "",
-      rating: detailResponses.rating ?? 0.0,
-      description: detailResponses.description ?? ""
-    )
-  }
-  
-  static func mapFavoriteEntitesToDomains(
-    input favoriteEntities: [FavoriteEntity]
-  ) -> [GameModel] {
-
-    return favoriteEntities.map { result in
-      return GameModel(
-        id: result.id,
-        name: result.name,
-        released: result.released,
-        backgroundImage: result.backgroundImage,
-        rating: result.rating
-      )
-    }
-  }
-  
-  static func mapGameDetailModelToFavoriteEntities(
-    input gameDetailResponses: GameDetailModel
-  ) -> FavoriteEntity {
-    let newFavorite = FavoriteEntity()
-    newFavorite.id = gameDetailResponses.id
-    newFavorite.name = gameDetailResponses.name
-    newFavorite.released = gameDetailResponses.released
-    newFavorite.backgroundImage = gameDetailResponses.backgroundImage
-    newFavorite.rating = gameDetailResponses.rating
-    newFavorite.desc = gameDetailResponses.description
-    return newFavorite
   }
 }

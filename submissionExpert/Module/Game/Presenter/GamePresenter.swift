@@ -7,13 +7,15 @@
 
 import SwiftUI
 import Combine
+import Shared
 
+@MainActor
 class GamePresenter: ObservableObject {
   
   private let router = GameRouter()
   private let gameUseCase: GameUseCase
   
-  @Published var games: [GameModel] = []
+  @Published var games: [GameDomainModel] = []
   @Published var errorMessage: String = ""
   @Published var loadingState: Bool = false
   @Published var searchText: String = ""
@@ -33,6 +35,7 @@ class GamePresenter: ObservableObject {
   }
   
   func getGames(query: String) {
+    
     loadingState = true
     gameUseCase.getGames(query: query)
       .receive(on: RunLoop.main)
@@ -49,11 +52,11 @@ class GamePresenter: ObservableObject {
       .store(in: &cancellables)
    }
 
-   func linkBuilder<Content: View>(
-    for game: GameModel,
+  func linkBuilder<Content: View>(
+    for game: GameDomainModel,
     @ViewBuilder content: () -> Content
    ) -> some View {
      NavigationLink(
-      destination: router.makeDetailView(for: game)) { content() }
+      destination: router.makeDetailView(for: game.id)) { content() }
    }
 }

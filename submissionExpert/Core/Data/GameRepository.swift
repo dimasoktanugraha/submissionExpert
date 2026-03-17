@@ -7,15 +7,11 @@
 
 import Foundation
 import Combine
+import Shared
 
 protocol GameRepositoryProtocol {
 
-  func getGames(query: String) -> AnyPublisher<[GameModel], Error>
-  func getGameDetail(id: Int) -> AnyPublisher<GameDetailModel, Error>
-  func getFavorites() -> AnyPublisher<[GameModel], Error>
-  func isGameExist(id: Int) -> AnyPublisher<Bool, Error>
-  func addFavorite(game: GameDetailModel) -> AnyPublisher<Bool, Error>
-  func deleteFavorite(id: Int) -> AnyPublisher<Bool, Error>
+  func getGames(query: String) -> AnyPublisher<[GameDomainModel], Error>
 }
 
 final class GameRepository: NSObject {
@@ -38,32 +34,10 @@ final class GameRepository: NSObject {
 
 extension GameRepository: GameRepositoryProtocol {
   
-  func getFavorites() -> AnyPublisher<[GameModel], Error> {
-    return self.locale.getFavorites()
-      .map { GameMapper.mapFavoriteEntitesToDomains(input: $0) }
-      .eraseToAnyPublisher()
-  }
-  
-  func isGameExist(id: Int) -> AnyPublisher<Bool, Error> {
-    return self.locale.isGameExist(id: id)
-      .eraseToAnyPublisher()
-  }
-  
-  func addFavorite(game: GameDetailModel) -> AnyPublisher<Bool, Error> {
-    let favoriteGame = GameMapper.mapGameDetailModelToFavoriteEntities(input: game)
-    return self.locale.addFavorite(from: favoriteGame)
-      .eraseToAnyPublisher()
-  }
-  
-  func deleteFavorite(id: Int) -> AnyPublisher<Bool, Error> {
-    return self.locale.deleteFavorite(id: id)
-      .eraseToAnyPublisher()
-  }
-  
-  func getGames(query: String) -> AnyPublisher<[GameModel], Error> {
+  func getGames(query: String) -> AnyPublisher<[GameDomainModel], Error> {
     if query.isEmpty {
       return self.locale.getGames()
-        .flatMap { result -> AnyPublisher<[GameModel], Error> in
+        .flatMap { result -> AnyPublisher<[GameDomainModel], Error> in
           if result.isEmpty {
             return self.remote.getGames(query: query)
               .map { GameMapper.mapGameResponsesToEntities(input: $0) }
@@ -84,11 +58,5 @@ extension GameRepository: GameRepositoryProtocol {
         .map { GameMapper.mapGameResponsesToDomains(input: $0) }
         .eraseToAnyPublisher()
     }
-  }
-  
-  func getGameDetail(id: Int) -> AnyPublisher<GameDetailModel, Error> {
-    return self.remote.getGameDetail(id: id)
-      .map { GameMapper.mapGameDetailResponsesToDomains(input: $0) }
-      .eraseToAnyPublisher()
   }
 }
