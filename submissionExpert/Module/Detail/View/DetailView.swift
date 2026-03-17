@@ -7,18 +7,12 @@
 
 import SwiftUI
 import CachedAsyncImage
-import Core
+import CorePackage
 import Detail
 
 struct DetailView: View {
   
-  @ObservedObject var presenter: GetByIdPresenter<
-    Any, DetailDomainModel,
-      Interactor<
-        Any, DetailDomainModel, GetDetailRepository<
-          GetDetailRemoteDataSource, DetailTransformer>
-      >
-  >
+  @ObservedObject var presenter: DetailPresenter
   
   var body: some View {
     ZStack {
@@ -26,7 +20,7 @@ struct DetailView: View {
         loadingView
       } else if presenter.isError {
         errorView
-      } else if presenter.item == nil {
+      } else if presenter.game == nil {
         emptyView
       } else {
         contentView
@@ -34,7 +28,7 @@ struct DetailView: View {
     }
     .onAppear {
         print("🟢 Calling presenter.getById()")
-        presenter.getById(request: nil)
+        presenter.getGameDetail()
     }
     .navigationTitle("Detail")
     .navigationBarTitleDisplayMode(.inline)
@@ -81,7 +75,7 @@ private extension DetailView {
         }
         .navigationTitle("Detail")
         .navigationBarTitleDisplayMode(.inline)
-//        .toolbar { favoriteButton }
+        .toolbar { favoriteButton }
         .onChange(of: presenter.errorMessage) {
             if !presenter.errorMessage.isEmpty {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
@@ -92,7 +86,7 @@ private extension DetailView {
     }
 
     var gameImage: some View {
-        CachedAsyncImage(url: URL(string: presenter.item?.backgroundImage ?? "")) { image in
+        CachedAsyncImage(url: URL(string: presenter.game?.backgroundImage ?? "")) { image in
             image.resizable()
         } placeholder: {
             ProgressView()
@@ -104,7 +98,7 @@ private extension DetailView {
     }
 
     var gameTitle: some View {
-        Text(presenter.item?.name ?? "")
+        Text(presenter.game?.name ?? "")
             .font(.title2)
             .fontWeight(.medium)
             .multilineTextAlignment(.center)
@@ -114,12 +108,12 @@ private extension DetailView {
     var gameInfo: some View {
         HStack {
             Image(systemName: "calendar.badge.plus")
-            Text(presenter.item?.released ?? "")
+            Text(presenter.game?.released ?? "")
                 .font(.subheadline)
             Spacer()
             Image(systemName: "star.fill")
                 .foregroundColor(.yellow)
-            Text(String(presenter.item?.rating ?? 0.0))
+            Text(String(presenter.game?.rating ?? 0.0))
                 .font(.subheadline)
                 .fontWeight(.medium)
                 .foregroundColor(.yellow)
@@ -128,19 +122,20 @@ private extension DetailView {
     }
 
     var gameDescription: some View {
-        HTMLTextView(html: presenter.item?.description ?? "No description available")
+        HTMLTextView(html: presenter.game?.description ?? "No description available")
     }
 
-//    var favoriteButton: some ToolbarContent {
-//        ToolbarItem(placement: .navigationBarTrailing) {
-//            Button(action: {
-//              $presenter.toggleFavorite
-//            }) {
-//                Image(systemName: presenter.isFavorite ? "heart.fill" : "heart")
-//                    .foregroundColor(presenter.isFavorite ? .red : .black)
-//            }
-//        }
-//    }
+    var favoriteButton: some ToolbarContent {
+        ToolbarItem(placement: .navigationBarTrailing) {
+            Button(action: {
+              presenter.toggleFavorite()
+            }
+            ){
+                Image(systemName: presenter.isFavorite ? "heart.fill" : "heart")
+                    .foregroundColor(presenter.isFavorite ? .red : .black)
+            }
+        }
+    }
 
     var errorSnackbarOverlay: some View {
         Group {

@@ -7,17 +7,16 @@
 
 import Foundation
 import RealmSwift
-import Core
+import CorePackage
 import Detail
 import Shared
+import Favorite
 
 final class Injection: NSObject {
   
-//  private let realm = try? Realm()
-//  private let endpoint = EndpointUrl(apiKey: APIConfig.apiKey)
+  private let realm = try? Realm()
 
   private func provideRepository() -> GameRepositoryProtocol {
-    let realm = try? Realm()
     let locale: LocaleDataSource = LocaleDataSource.sharedInstance(realm)
     let remote: RemoteDataSource = RemoteDataSource.sharedInstance
 
@@ -28,22 +27,10 @@ final class Injection: NSObject {
     let repository = provideRepository()
     return GameInteractor(repository: repository)
   }
-
-  func provideGameDetail(id: Int) -> GameDetailUseCase {
-    let repository = provideRepository()
-    return GameDetailInteractor(repository: repository, id: id)
-  }
-  
-  func provideFavoriteGame() -> FavoriteGameUseCase {
-    let repository = provideRepository()
-    return FavoriteGameInteractor(repository: repository)
-  }
   
   func provideDetail<U: UseCase>(id: Int) -> U? where U.Request == Any, U.Response == DetailDomainModel {
    
     let remote = GetDetailRemoteDataSource(endpoint: Endpoints.Gets.detail(id: id).url)
-    
-    print("🔵 Endpoint URL:", Endpoints.Gets.detail(id: id).url)
    
     let mapper = DetailTransformer()
     
@@ -52,5 +39,27 @@ final class Injection: NSObject {
       mapper: mapper)
    
     return Interactor(repository: repository) as? U
+  }
+  
+  func provideFavorite() -> Interactor<
+    Any,
+    [GameDomainModel],
+    FavoritesRepository<
+      FavoritesLocaleDataSource,
+      FavoriteTransformer>
+  > {
+    let locale = FavoritesLocaleDataSource(realm: realm!)
+    let mapper = FavoriteTransformer()
+    let repository = FavoritesRepository(localeDataSource: locale, mapper: mapper)
+    
+    return Interactor(repository: repository)
+  }
+  
+  func provideFavoriteDetail() -> FavoriteInteractor {
+    let locale = FavoritesLocaleDataSource(realm: realm!)
+    let mapper = FavoriteTransformer()
+    let repository = FavoritesRepository(localeDataSource: locale, mapper: mapper)
+    
+    return FavoriteInteractor(repository: repository)
   }
 }

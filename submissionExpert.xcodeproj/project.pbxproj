@@ -8,12 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		37189E3B2E8943E300CFDDFD /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 37189E3A2E8943E300CFDDFD /* RealmSwift */; };
+		3759B9862EBC4A5E004D7ACD /* Favorite in Frameworks */ = {isa = PBXBuildFile; productRef = 3759B9852EBC4A5E004D7ACD /* Favorite */; };
 		37842A142E919FEF00B5DED5 /* Detail in Frameworks */ = {isa = PBXBuildFile; productRef = 37842A132E919FEF00B5DED5 /* Detail */; };
 		37B6A4732E767B1100332D91 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 37B6A4722E767B1100332D91 /* Alamofire */; };
 		37B6A4B42E76810100332D91 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 37B6A4B32E76810100332D91 /* .swiftlint.yml */; };
 		37B6A5672E793AD800332D91 /* CachedAsyncImage in Frameworks */ = {isa = PBXBuildFile; productRef = 37B6A5662E793AD800332D91 /* CachedAsyncImage */; };
 		37D2BFC02EBA68110026A743 /* Shared in Frameworks */ = {isa = PBXBuildFile; productRef = 37D2BFBF2EBA68110026A743 /* Shared */; };
-		37D2FE3E2E89AE0D00F07BEB /* Core in Frameworks */ = {isa = PBXBuildFile; productRef = 37D2FE3D2E89AE0D00F07BEB /* Core */; };
 		37DD46082E828EF3003AD215 /* codemagic.yaml in Resources */ = {isa = PBXBuildFile; fileRef = 37DD46072E828EEF003AD215 /* codemagic.yaml */; };
 /* End PBXBuildFile section */
 
@@ -51,9 +51,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		37B6A3FD2E767A0900332D91 /* SubmissionExpert.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SubmissionExpert.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3759BD942EBD2C92004D7ACD /* SubmissionExpert.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SubmissionExpert.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3759BD952EBD2C92004D7ACD /* SubmissionExpertTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SubmissionExpertTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		37B6A4B32E76810100332D91 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
-		37B6A5822E79B80200332D91 /* SubmissionExpertTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SubmissionExpertTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		37DD46072E828EEF003AD215 /* codemagic.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = codemagic.yaml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -82,10 +82,10 @@
 			files = (
 				37842A142E919FEF00B5DED5 /* Detail in Frameworks */,
 				37189E3B2E8943E300CFDDFD /* RealmSwift in Frameworks */,
-				37D2FE3E2E89AE0D00F07BEB /* Core in Frameworks */,
 				37B6A5672E793AD800332D91 /* CachedAsyncImage in Frameworks */,
 				37B6A4732E767B1100332D91 /* Alamofire in Frameworks */,
 				37D2BFC02EBA68110026A743 /* Shared in Frameworks */,
+				3759B9862EBC4A5E004D7ACD /* Favorite in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,13 +99,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3758ED6F2E83DD0000DB9A6C /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		37B6A3F42E767A0900332D91 = {
 			isa = PBXGroup;
 			children = (
@@ -114,18 +107,9 @@
 				37B6A4B32E76810100332D91 /* .swiftlint.yml */,
 				37B6A3FF2E767A0900332D91 /* SubmissionExpert */,
 				37B6A5832E79B80200332D91 /* SubmissionExpertTests */,
-				3758ED6F2E83DD0000DB9A6C /* Frameworks */,
-				37B6A3FE2E767A0900332D91 /* Products */,
+				3759BD942EBD2C92004D7ACD /* SubmissionExpert.app */,
+				3759BD952EBD2C92004D7ACD /* SubmissionExpertTests.xctest */,
 			);
-			sourceTree = "<group>";
-		};
-		37B6A3FE2E767A0900332D91 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				37B6A3FD2E767A0900332D91 /* SubmissionExpert.app */,
-				37B6A5822E79B80200332D91 /* SubmissionExpertTests.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -154,12 +138,12 @@
 				37B6A4722E767B1100332D91 /* Alamofire */,
 				37B6A5662E793AD800332D91 /* CachedAsyncImage */,
 				37189E3A2E8943E300CFDDFD /* RealmSwift */,
-				37D2FE3D2E89AE0D00F07BEB /* Core */,
 				37842A132E919FEF00B5DED5 /* Detail */,
 				37D2BFBF2EBA68110026A743 /* Shared */,
+				3759B9852EBC4A5E004D7ACD /* Favorite */,
 			);
 			productName = submissionExpert;
-			productReference = 37B6A3FD2E767A0900332D91 /* SubmissionExpert.app */;
+			productReference = 3759BD942EBD2C92004D7ACD /* SubmissionExpert.app */;
 			productType = "com.apple.product-type.application";
 		};
 		37B6A5812E79B80200332D91 /* SubmissionExpertTests */ = {
@@ -180,10 +164,8 @@
 				37B6A5832E79B80200332D91 /* SubmissionExpertTests */,
 			);
 			name = SubmissionExpertTests;
-			packageProductDependencies = (
-			);
 			productName = SubmissionExpertTests;
-			productReference = 37B6A5822E79B80200332D91 /* SubmissionExpertTests.xctest */;
+			productReference = 3759BD952EBD2C92004D7ACD /* SubmissionExpertTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -218,12 +200,13 @@
 				37B6A4712E767B1100332D91 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				37B6A5652E793AD800332D91 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */,
 				37189E392E8943E300CFDDFD /* XCRemoteSwiftPackageReference "realm-swift" */,
-				37189E3E2E89455100CFDDFD /* XCLocalSwiftPackageReference "Module/Core" */,
 				37D2FE412E89B14700F07BEB /* XCLocalSwiftPackageReference "Module/Detail" */,
 				37842A122E919FD500B5DED5 /* XCLocalSwiftPackageReference "Module/Shared" */,
+				37D2C0472EBC490E0026A743 /* XCLocalSwiftPackageReference "Module/Favorite" */,
+				3759B9FE2EBD2242004D7ACD /* XCRemoteSwiftPackageReference "Modularization-Core-Package" */,
 			);
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 37B6A3FE2E767A0900332D91 /* Products */;
+			productRefGroup = 37B6A3F42E767A0900332D91;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -542,13 +525,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		37189E3E2E89455100CFDDFD /* XCLocalSwiftPackageReference "Module/Core" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = Module/Core;
-		};
 		37842A122E919FD500B5DED5 /* XCLocalSwiftPackageReference "Module/Shared" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Module/Shared;
+		};
+		37D2C0472EBC490E0026A743 /* XCLocalSwiftPackageReference "Module/Favorite" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Module/Favorite;
 		};
 		37D2FE412E89B14700F07BEB /* XCLocalSwiftPackageReference "Module/Detail" */ = {
 			isa = XCLocalSwiftPackageReference;
@@ -563,6 +546,14 @@
 			requirement = {
 				branch = master;
 				kind = branch;
+			};
+		};
+		3759B9FE2EBD2242004D7ACD /* XCRemoteSwiftPackageReference "Modularization-Core-Package" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dimasoktanugraha/Modularization-Core-Package.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
 			};
 		};
 		37B6A4712E767B1100332D91 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
@@ -589,6 +580,10 @@
 			package = 37189E392E8943E300CFDDFD /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
 		};
+		3759B9852EBC4A5E004D7ACD /* Favorite */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Favorite;
+		};
 		37842A132E919FEF00B5DED5 /* Detail */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 37D2FE412E89B14700F07BEB /* XCLocalSwiftPackageReference "Module/Detail" */;
@@ -607,10 +602,6 @@
 		37D2BFBF2EBA68110026A743 /* Shared */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Shared;
-		};
-		37D2FE3D2E89AE0D00F07BEB /* Core */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Core;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

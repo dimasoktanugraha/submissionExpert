@@ -13,10 +13,6 @@ protocol LocaleDataSourceProtocol: AnyObject {
   
   func getGames() -> AnyPublisher<[GameEntity], Error>
   func addGames(from games: [GameEntity]) -> AnyPublisher<Bool, Error>
-  func getFavorites() -> AnyPublisher<[FavoriteEntity], Error>
-  func isGameExist(id: Int) -> AnyPublisher<Bool, Error>
-  func addFavorite(from game: FavoriteEntity) -> AnyPublisher<Bool, Error>
-  func deleteFavorite(id: Int) -> AnyPublisher<Bool, Error>
 }
  
 final class LocaleDataSource: NSObject {
@@ -57,68 +53,6 @@ extension LocaleDataSource: LocaleDataSourceProtocol {
           }
         } catch {
           completion(.failure(DatabaseError.requestFailed))
-        }
-      } else {
-        completion(.failure(DatabaseError.invalidInstance))
-      }
-    }.eraseToAnyPublisher()
-  }
-  
-  func getFavorites() -> AnyPublisher<[FavoriteEntity], Error> {
-    return Future<[FavoriteEntity], Error> { completion in
-      if let realm = self.realm {
-        let favorites: Results<FavoriteEntity> = {
-          realm.objects(FavoriteEntity.self)
-        }()
-        completion(.success(favorites.toArray(ofType: FavoriteEntity.self)))
-      } else {
-        completion(.failure(DatabaseError.invalidInstance))
-      }
-    }.eraseToAnyPublisher()
-  }
-  
-  func isGameExist(id: Int) -> AnyPublisher<Bool, Error> {
-    return Future<Bool, Error> { completion in
-      if let realm = self.realm {
-        let favorite = realm.object(ofType: FavoriteEntity.self, forPrimaryKey: id)
-        completion(.success(favorite != nil))
-      } else {
-        completion(.failure(DatabaseError.invalidInstance))
-      }
-    }.eraseToAnyPublisher()
-  }
-  
-  func addFavorite(from game: FavoriteEntity) -> AnyPublisher<Bool, Error> {
-    return Future<Bool, Error> { completion in
-      if let realm = self.realm {
-        do {
-          try realm.write {
-            realm.add(game, update: .all)
-            completion(.success(true))
-          }
-        } catch {
-          completion(.failure(DatabaseError.requestFailed))
-        }
-      } else {
-        completion(.failure(DatabaseError.invalidInstance))
-      }
-    }.eraseToAnyPublisher()
-  }
-  
-  func deleteFavorite(id: Int) -> AnyPublisher<Bool, Error> {
-    return Future<Bool, Error> { completion in
-      if let realm = self.realm {
-        if let favorite = realm.object(ofType: FavoriteEntity.self, forPrimaryKey: id) {
-          do {
-            try realm.write {
-              realm.delete(favorite)
-              completion(.success(true))
-            }
-          } catch {
-            completion(.failure(DatabaseError.requestFailed))
-          }
-        } else {
-          completion(.failure(DatabaseError.invalidInstance))
         }
       } else {
         completion(.failure(DatabaseError.invalidInstance))

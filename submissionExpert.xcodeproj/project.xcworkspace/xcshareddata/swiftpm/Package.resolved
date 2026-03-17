@@ -1,13 +1,22 @@
 {
-  "originHash" : "9ef25c47a7ed6ae79632fceff8ac0d7f04095fbc393fb68d605201fb0b6a5128",
+  "originHash" : "89b56132d720e0626683d15f33367e7130f2937bc7e87ca11e3f9f1590aebaee",
   "pins" : [
     {
       "identity" : "alamofire",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Alamofire/Alamofire",
       "state" : {
-        "revision" : "513364f870f6bfc468f9d2ff0a95caccc10044c5",
-        "version" : "5.10.2"
+        "revision" : "3f99050e75bbc6fe71fc323adabb039756680016",
+        "version" : "5.11.1"
+      }
+    },
+    {
+      "identity" : "modularization-core-package",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/dimasoktanugraha/Modularization-Core-Package.git",
+      "state" : {
+        "revision" : "395b6a0e5dd8acf0a3374f5436398f1fc861dd26",
+        "version" : "1.0.2"
       }
     },
     {
@@ -25,7 +34,7 @@
       "location" : "https://github.com/realm/realm-swift",
       "state" : {
         "branch" : "master",
-        "revision" : "5fcba6408c99eb3596bf5ae148bfc1a33b5adebd"
+        "revision" : "c22f9303d446fc3c044e4c151ed19597464b6bd7"
       }
     },
     {

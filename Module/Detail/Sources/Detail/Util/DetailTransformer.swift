@@ -5,7 +5,7 @@
 //  Created by Dimas Oktanugraha on 04/11/25.
 //
 
-import Core
+import CorePackage
 import Shared
 
 public struct DetailTransformer: Mapper {

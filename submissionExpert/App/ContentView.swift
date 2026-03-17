@@ -6,10 +6,24 @@
 //
 
 import SwiftUI
+import CorePackage
+import Favorite
+import Shared
 
 struct ContentView: View {
   @EnvironmentObject var gamePresenter: GamePresenter
-  @EnvironmentObject var favoritePresenter: FavoritePresenter
+  @EnvironmentObject var favoritePresenter: GetListPresenter<
+    Any,
+    GameDomainModel,
+    Interactor<
+      Any,
+      [GameDomainModel],
+      FavoritesRepository<
+        FavoritesLocaleDataSource,
+        FavoriteTransformer
+      >
+    >
+  >
   @EnvironmentObject var profilePresenter: ProfilePresenter
   
   var body: some View {
@@ -28,11 +42,4 @@ struct ContentView: View {
         }
     }
   }
-}
-
-#Preview {
-  ContentView()
-    .environmentObject(GamePresenter(gameUseCase: Injection.init().provideGame()))
-    .environmentObject(FavoritePresenter(favoriteUseCase: Injection.init().provideFavoriteGame()))
-    .environmentObject(ProfilePresenter())
 }

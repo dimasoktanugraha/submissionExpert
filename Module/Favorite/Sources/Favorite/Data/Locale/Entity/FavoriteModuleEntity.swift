@@ -8,7 +8,7 @@
 import Foundation
 import RealmSwift
  
-class FavoriteEntity: Object {
+public class FavoriteModuleEntity: Object {
  
   @objc dynamic var id: Int = 0
   @objc dynamic var name: String = ""
@@ -17,7 +17,7 @@ class FavoriteEntity: Object {
   @objc dynamic var rating: Double = 0.0
   @objc dynamic var desc: String = ""
  
-  override static func primaryKey() -> String? {
+  public override static func primaryKey() -> String? {
     return "id"
   }
  

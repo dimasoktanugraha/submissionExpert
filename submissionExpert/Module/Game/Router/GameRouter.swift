@@ -6,16 +6,15 @@
 //
 
 import SwiftUI
-import Core
+import CorePackage
 import Detail
 import Shared
+import Favorite
 
 class GameRouter {
 
   @MainActor
-  func makeDetailView(for game: GameModel) -> some View {
-    
-    print("🟢 Game ID:", game.id)
+  func makeDetailView(for gameId: Int) -> some View {
 
     guard let detailUseCase: Interactor<
       Any,
@@ -23,15 +22,14 @@ class GameRouter {
       GetDetailRepository<
         GetDetailRemoteDataSource,
         DetailTransformer>
-    > = Injection.init().provideDetail(id: game.id) else {
+    > = Injection.init().provideDetail(id: gameId) else {
         fatalError("Failed to create detail use case")
     }
     
-    let presenter = GetByIdPresenter(useCase: detailUseCase)
+    let favoriteUseCase: FavoriteInteractor = Injection().provideFavoriteDetail()
     
-//    let gameDetailUseCase = Injection.init().provideGameDetail(id: game.id)
-//    let presenter = GameDetailPresenter(gameDetailUseCase: gameDetailUseCase)
+    let presenter = DetailPresenter(detailUseCase: detailUseCase, favoriteUseCase: favoriteUseCase)
+    
     return DetailView(presenter: presenter)
   }
-
 }

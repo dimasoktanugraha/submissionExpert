@@ -14,7 +14,7 @@ let package = Package(
     ],
     dependencies: [
       // Dependencies declare other packages that this package depends on.
-      .package(path: "../Core")
+      .package(url: "https://github.com/dimasoktanugraha/Modularization-Core-Package.git", .upToNextMajor(from: "1.0.0")),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -22,7 +22,7 @@ let package = Package(
         .target(
             name: "Shared",
             dependencies: [
-                "Core"
+              .product(name: "CorePackage", package: "Modularization-Core-Package"),
             ]),
         .testTarget(
             name: "SharedTests",

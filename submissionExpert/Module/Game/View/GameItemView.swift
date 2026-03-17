@@ -7,9 +7,10 @@
 
 import SwiftUI
 import CachedAsyncImage
+import Shared
 
 struct GameItemView: View {
-  var game: GameModel
+  var game: GameDomainModel
   
   var body: some View {
     HStack(alignment: .top, spacing: 12) {

@@ -5,7 +5,7 @@
 //  Created by Dimas Oktanugraha on 05/10/25.
 //
 
-import Core
+import CorePackage
 import Shared
 import Combine
  
