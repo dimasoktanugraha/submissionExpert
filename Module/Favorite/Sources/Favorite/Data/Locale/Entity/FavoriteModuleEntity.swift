@@ -9,16 +9,15 @@ import Foundation
 import RealmSwift
  
 public class FavoriteModuleEntity: Object {
+  
+  @Persisted(primaryKey: true) public var id: Int = 0
+  @Persisted public var name: String = ""
+  @Persisted public var released: String = ""
+  @Persisted public var backgroundImage: String = ""
+  @Persisted public var rating: Double = 0.0
+  @Persisted public var desc: String = ""
  
-  @objc dynamic var id: Int = 0
-  @objc dynamic var name: String = ""
-  @objc dynamic var released: String = ""
-  @objc dynamic var backgroundImage: String = ""
-  @objc dynamic var rating: Double = 0.0
-  @objc dynamic var desc: String = ""
- 
-  public override static func primaryKey() -> String? {
-    return "id"
+  public override init() {
+      super.init()
   }
- 
 }

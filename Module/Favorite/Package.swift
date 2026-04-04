@@ -16,7 +16,8 @@ let package = Package(
       // Dependencies declare other packages that this package depends on.
       .package(url: "https://github.com/realm/realm-swift.git", branch: "master"),
       .package(url: "https://github.com/Alamofire/Alamofire.git", .upToNextMajor(from: "5.10.2")),
-      .package(url: "https://github.com/dimasoktanugraha/Modularization-Core-Package.git", .upToNextMajor(from: "1.0.0")),
+      .package(url: "https://github.com/dimasoktanugraha/Modularization-Core-Package.git",
+        .upToNextMajor(from: "1.0.0")),
       .package(path: "../Shared")
     ],
     targets: [
