@@ -10,23 +10,23 @@ import Combine
 import Shared
  
 public struct FavoritesRepository<
-  FavoritesLocaleDataSource: LocaleDataSource,
+  Local: LocaleDataSource,
   Transformer: Mapper
 >: Repository where
 
-  FavoritesLocaleDataSource.Request == FavoriteModuleEntity,
-  FavoritesLocaleDataSource.Response == FavoriteModuleEntity,
+  Local.Request == FavoriteModuleEntity,
+  Local.Response == FavoriteModuleEntity,
   Transformer.Entity == [FavoriteModuleEntity],
   Transformer.Domain == [GameDomainModel] {
   
   public typealias Request = Any
   public typealias Response = [GameDomainModel]
   
-  private let _localeDataSource: FavoritesLocaleDataSource
+  private let _localeDataSource: Local
   private let _mapper: Transformer
   
   public init(
-      localeDataSource: FavoritesLocaleDataSource,
+      localeDataSource: Local,
       mapper: Transformer) {
       
       _localeDataSource = localeDataSource

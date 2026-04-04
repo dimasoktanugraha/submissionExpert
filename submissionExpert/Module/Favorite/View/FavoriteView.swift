@@ -11,7 +11,10 @@ import Shared
 import Favorite
 
 struct FavoriteView: View {
-  @ObservedObject var presenter: GetListPresenter<Any, GameDomainModel, Interactor<Any, [GameDomainModel], FavoritesRepository<FavoritesLocaleDataSource, FavoriteTransformer>>>
+  @ObservedObject var presenter: GetListPresenter<
+    Any,
+    GameDomainModel,
+    Interactor<Any, [GameDomainModel], FavoritesRepository<FavoritesLocaleDataSource, FavoriteTransformer>>>
   
   private let router = GameRouter()
   
@@ -34,7 +37,9 @@ struct FavoriteView: View {
           )
       .onAppear {
         print("🟢 Calling presenter.getList()")
-        presenter.getList(request: nil)
+        Task {
+          presenter.getList(request: nil)
+        }
       }
       .onChange(of: presenter.errorMessage) {
         if !presenter.errorMessage.isEmpty {

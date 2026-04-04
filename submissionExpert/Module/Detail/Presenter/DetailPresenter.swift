@@ -18,8 +18,6 @@ public protocol DetailUseCase: CorePackage.UseCase where Request == Any, Respons
 extension Interactor: DetailUseCase where Request == Any, Response == DetailDomainModel {}
 
 class DetailPresenter: ObservableObject {
-//  private let detailUseCase: Interactor<Any, DetailDomainModel, GetDetailRepository<GetDetailRemoteDataSource, DetailTransformer>>
-//  private let favoriteUseCase: FavoriteInteractor
   private let detailUseCase: any DetailUseCase
   private let favoriteUseCase: FavoriteInteractor<FavoritesLocaleDataSource>
   
@@ -30,12 +28,6 @@ class DetailPresenter: ObservableObject {
   @Published var isLoading: Bool = false
   @Published var isError: Bool = false
   @Published var isFavorite = false
-
-//  init(detailUseCase: Interactor<Any, DetailDomainModel, GetDetailRepository<GetDetailRemoteDataSource, DetailTransformer>>,
-//       favoriteUseCase: FavoriteInteractor) {
-//    self.detailUseCase = detailUseCase
-//    self.favoriteUseCase = favoriteUseCase
-//  }
   
   init(detailUseCase: any DetailUseCase,
        favoriteUseCase: FavoriteInteractor<FavoritesLocaleDataSource>) {
@@ -92,7 +84,11 @@ class DetailPresenter: ObservableObject {
   
     private func addFavorite(game: DetailDomainModel) {
       let data = GameDomainModel(
-        id: game.id, name: game.name, released: game.released, backgroundImage: game.backgroundImage, rating: game.rating
+        id: game.id,
+        name: game.name,
+        released: game.released,
+        backgroundImage: game.backgroundImage,
+        rating: game.rating
       )
       
       favoriteUseCase.addFavorite(game: data)
