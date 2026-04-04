@@ -24,7 +24,8 @@ class MockFavoritesLocaleDataSource: CorePackage.LocaleDataSource {
   
     func list() -> AnyPublisher<[FavoriteModuleEntity], Error> {
         if shouldReturnError {
-            return Fail(error: URLError(.badServerResponse)).eraseToAnyPublisher()
+            let error = Foundation.URLError(.badServerResponse)
+            return Fail(error: error).eraseToAnyPublisher()
         }
         return Just(mockEntities)
             .setFailureType(to: Error.self)
@@ -53,15 +54,15 @@ class MockFavoritesLocaleDataSource: CorePackage.LocaleDataSource {
           .eraseToAnyPublisher()
     }
   
-    func get(id: String) -> AnyPublisher<[FavoriteModuleEntity], any Error> {
+    func get(id: String) -> AnyPublisher<FavoriteModuleEntity, Error> {
         return Fail(error: URLError(.cannotFindHost)).eraseToAnyPublisher()
     }
 
-    func update(id: Int, entity: FavoriteModuleEntity) -> AnyPublisher<Bool, any Error> {
-        return Just(true).setFailureType(to: (any Error).self).eraseToAnyPublisher()
+    func update(id: Int, entity: FavoriteModuleEntity) -> AnyPublisher<Bool, Error> {
+        return Just(true).setFailureType(to: Error.self).eraseToAnyPublisher()
     }
 
-    func addAll(entities: [FavoriteModuleEntity]) -> AnyPublisher<Bool, any Error> {
+    func addAll(entities: [FavoriteModuleEntity]) -> AnyPublisher<Bool, Error> {
         return Just(true).setFailureType(to: (any Error).self).eraseToAnyPublisher()
     }
 }
@@ -80,19 +81,21 @@ struct FavoriteGameInteractorTests {
         let entity1 = FavoriteModuleEntity()
         entity1.id = 1
         entity1.name = "GTA-V"
+        entity1.released = "2025-01-01"
+        entity1.backgroundImage = "gta.png"
+        entity1.rating = 4.9
+        entity1.desc = "GTA-V"
               
         let entity2 = FavoriteModuleEntity()
         entity2.id = 2
         entity2.name = "ML"
+        entity2.released = "2025-01-01"
+        entity2.backgroundImage = "ml.png"
+        entity2.rating = 4.9
+        entity2.desc = "ML"
               
         mockDataSource.mockEntities = [entity1, entity2]
       
-//        mockDataSource.mockEntities = [
-//          FavoriteModuleEntity(id: 1, name: "GTA-V", released: "2025-01-01", backgroundImage: "gta.png", rating: 4.9),
-//          FavoriteModuleEntity(id: 2, name: "ML", released: "2025-01-02", backgroundImage: "ml.png", rating: 4.5)
-//        ]
-//        mockRepository.favoritesToReturn = expectedGames
-
         let result = try await interactor.getFavorites()
             .values
             .first(where: { _ in true })
@@ -120,7 +123,7 @@ struct FavoriteGameInteractorTests {
 //
 //        let interactor = FavoriteInteractor(repository: mockRepository)
       
-        let interactor = FavoriteInteractor(repository: mockRepository)
+        let interactor = FavoriteInteractor<MockFavoritesLocaleDataSource>(repository: mockRepository)
 
         do {
             _ = try await interactor.getFavorites()
@@ -128,7 +131,12 @@ struct FavoriteGameInteractorTests {
                 .first(where: { _ in true })
           Issue.record("Expected failure but got success")
         } catch {
-            #expect(error is TestError)
+          let isURLError = error is Foundation.URLError
+          #expect(isURLError)
+          
+          if let urlError = error as? Foundation.URLError {
+              #expect(urlError.code == Foundation.URLError.Code.badServerResponse)
+          }
         }
     }
 }

@@ -26,7 +26,9 @@ class GameRouter {
 //        fatalError("Failed to create detail use case")
 //    }
     
-    guard let interactor: Interactor<Any, DetailDomainModel, GetDetailRepository<GetDetailRemoteDataSource, DetailTransformer>> = Injection().provideDetail(id: gameId) else {
+    guard let interactor: Interactor<Any, DetailDomainModel,
+      GetDetailRepository<GetDetailRemoteDataSource, DetailTransformer>> =
+        Injection().provideDetail(id: gameId) else {
             fatalError("Failed to create detail use case")
         }
     

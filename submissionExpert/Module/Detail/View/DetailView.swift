@@ -127,13 +127,15 @@ private extension DetailView {
 
     var favoriteButton: some ToolbarContent {
         ToolbarItem(placement: .navigationBarTrailing) {
-            Button(action: {
+          Button(
+            action: {
               presenter.toggleFavorite()
-            }
-            ){
+            },
+            label: {
                 Image(systemName: presenter.isFavorite ? "heart.fill" : "heart")
                     .foregroundColor(presenter.isFavorite ? .red : .black)
             }
+          )
         }
     }
 
