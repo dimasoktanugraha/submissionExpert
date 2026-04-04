@@ -15,16 +15,6 @@ class GameRouter {
 
   @MainActor
   func makeDetailView(for gameId: Int) -> some View {
-
-//    guard let detailUseCase: Interactor<
-//      Any,
-//      DetailDomainModel,
-//      GetDetailRepository<
-//        GetDetailRemoteDataSource,
-//        DetailTransformer>
-//    > = Injection.init().provideDetail(id: gameId) else {
-//        fatalError("Failed to create detail use case")
-//    }
     
     guard let interactor: Interactor<Any, DetailDomainModel,
       GetDetailRepository<GetDetailRemoteDataSource, DetailTransformer>> =
@@ -33,8 +23,6 @@ class GameRouter {
         }
     
     let favoriteUseCase: FavoriteInteractor = Injection().provideFavoriteDetail()
-    
-//    let presenter = DetailPresenter(detailUseCase: detailUseCase, favoriteUseCase: favoriteUseCase)
     
     let presenter = DetailPresenter(
         detailUseCase: interactor,

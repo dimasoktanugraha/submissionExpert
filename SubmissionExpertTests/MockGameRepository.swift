@@ -50,13 +50,6 @@ class MockGameRepository: Repository, GameRepositoryProtocol {
   }
   
   func getGameDetail(id: Int) -> AnyPublisher<DetailDomainModel, Error> {
-//    if let error = errorToReturn {
-//      return Fail(error: error).eraseToAnyPublisher()
-//    } else {
-//      return Just(gameDetailToReturn)
-//        .setFailureType(to: Error.self)
-//        .eraseToAnyPublisher()
-//    }
     return execute(request: nil)
   }
   

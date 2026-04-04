@@ -75,7 +75,6 @@ struct FavoriteGameInteractorTests {
       
         let repository = FavoritesRepository(localeDataSource: mockDataSource, mapper: mapper)
       
-//        let interactor = FavoriteInteractor(repository: repository)
         let interactor = FavoriteInteractor<MockFavoritesLocaleDataSource>(repository: repository)
 
         let entity1 = FavoriteModuleEntity()
@@ -102,9 +101,6 @@ struct FavoriteGameInteractorTests {
       
         #expect(result?.count == 2)
         #expect(result?.first?.name == "GTA-V")
-
-//        #expect(result?.count == expectedGames.count)
-//        #expect(result?.first?.name == "GTA-V")
     }
 
     @Test("FavoriteGameInteractor - getFavoriteGames failure")
@@ -117,11 +113,6 @@ struct FavoriteGameInteractorTests {
         mockDataSource.shouldReturnError = true
         
         let mockRepository = FavoritesRepository(localeDataSource: mockDataSource, mapper: mapper)
-      
-//        let mockRepository = MockGameRepository()
-//        mockRepository.errorToReturn = TestError.someError
-//
-//        let interactor = FavoriteInteractor(repository: mockRepository)
       
         let interactor = FavoriteInteractor<MockFavoritesLocaleDataSource>(repository: mockRepository)
 
