@@ -9,11 +9,20 @@ import Combine
 import CorePackage
 import Shared
 
-public struct FavoriteInteractor: FavoriteUseCase {
-  private let repository: FavoritesRepository<FavoritesLocaleDataSource, FavoriteTransformer>
+public struct FavoriteInteractor<Local: LocaleDataSource>: FavoriteUseCase
+  where
+    Local.Response == FavoriteModuleEntity,
+    Local.Request == FavoriteModuleEntity {
+//  private let repository: FavoritesRepository<FavoritesLocaleDataSource, FavoriteTransformer>
+//
+//  public init(repository: FavoritesRepository<FavoritesLocaleDataSource, FavoriteTransformer>) {
+//    self.repository = repository
+//  }
+  
+  private let repository: FavoritesRepository<Local, FavoriteTransformer>
 
-  public init(repository: FavoritesRepository<FavoritesLocaleDataSource, FavoriteTransformer>) {
-    self.repository = repository
+  public init(repository: FavoritesRepository<Local, FavoriteTransformer>) {
+      self.repository = repository
   }
   
   public func getFavorites() -> AnyPublisher<[GameDomainModel], Error> {

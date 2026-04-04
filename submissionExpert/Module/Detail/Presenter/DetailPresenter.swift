@@ -13,9 +13,15 @@ import Shared
 import Detail
 import Favorite
 
+public protocol DetailUseCase: CorePackage.UseCase where Request == Any, Response == DetailDomainModel {}
+
+extension Interactor: DetailUseCase where Request == Any, Response == DetailDomainModel {}
+
 class DetailPresenter: ObservableObject {
-  private let detailUseCase: Interactor<Any, DetailDomainModel, GetDetailRepository<GetDetailRemoteDataSource, DetailTransformer>>
-  private let favoriteUseCase: FavoriteInteractor
+//  private let detailUseCase: Interactor<Any, DetailDomainModel, GetDetailRepository<GetDetailRemoteDataSource, DetailTransformer>>
+//  private let favoriteUseCase: FavoriteInteractor
+  private let detailUseCase: any DetailUseCase
+  private let favoriteUseCase: FavoriteInteractor<FavoritesLocaleDataSource>
   
   private var cancellables: Set<AnyCancellable> = []
 
@@ -25,8 +31,14 @@ class DetailPresenter: ObservableObject {
   @Published var isError: Bool = false
   @Published var isFavorite = false
 
-  init(detailUseCase: Interactor<Any, DetailDomainModel, GetDetailRepository<GetDetailRemoteDataSource, DetailTransformer>>,
-       favoriteUseCase: FavoriteInteractor) {
+//  init(detailUseCase: Interactor<Any, DetailDomainModel, GetDetailRepository<GetDetailRemoteDataSource, DetailTransformer>>,
+//       favoriteUseCase: FavoriteInteractor) {
+//    self.detailUseCase = detailUseCase
+//    self.favoriteUseCase = favoriteUseCase
+//  }
+  
+  init(detailUseCase: any DetailUseCase,
+       favoriteUseCase: FavoriteInteractor<FavoritesLocaleDataSource>) {
     self.detailUseCase = detailUseCase
     self.favoriteUseCase = favoriteUseCase
   }

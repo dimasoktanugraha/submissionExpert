@@ -7,13 +7,18 @@
 
 import Combine
 import Shared
+import Detail
+import CorePackage
 
 @testable import SubmissionExpert
-class MockGameRepository: GameRepositoryProtocol {
+class MockGameRepository: Repository, GameRepositoryProtocol {
+  
+  public typealias Request = Any
+  public typealias Response = DetailDomainModel
 
   var gamesToReturn: [GameDomainModel] = []
   var favoritesToReturn: [GameDomainModel] = []
-  var gameDetailToReturn: GameDetailModel = GameDetailModel(
+  var gameDetailToReturn: DetailDomainModel = DetailDomainModel(
     id: 0,
     name: "",
     released: "",
@@ -34,14 +39,25 @@ class MockGameRepository: GameRepositoryProtocol {
     }
   }
   
-  func getGameDetail(id: Int) -> AnyPublisher<GameDetailModel, any Error> {
-    if let error = errorToReturn {
-      return Fail(error: error).eraseToAnyPublisher()
-    } else {
-      return Just(gameDetailToReturn)
-        .setFailureType(to: Error.self)
-        .eraseToAnyPublisher()
-    }
+  func execute(request: Any?) -> AnyPublisher<DetailDomainModel, Error> {
+      if let error = errorToReturn {
+          return Fail(error: error).eraseToAnyPublisher()
+      } else {
+          return Just(gameDetailToReturn)
+              .setFailureType(to: Error.self)
+              .eraseToAnyPublisher()
+      }
+  }
+  
+  func getGameDetail(id: Int) -> AnyPublisher<DetailDomainModel, Error> {
+//    if let error = errorToReturn {
+//      return Fail(error: error).eraseToAnyPublisher()
+//    } else {
+//      return Just(gameDetailToReturn)
+//        .setFailureType(to: Error.self)
+//        .eraseToAnyPublisher()
+//    }
+    return execute(request: nil)
   }
   
   func isGameExist(id: Int) -> AnyPublisher<Bool, any Error> {
@@ -54,7 +70,7 @@ class MockGameRepository: GameRepositoryProtocol {
     }
   }
   
-  func addFavorite(game: SubmissionExpert.GameDetailModel) -> AnyPublisher<Bool, any Error> {
+  func addFavorite(game: DetailDomainModel) -> AnyPublisher<Bool, any Error> {
     if let error = errorToReturn {
       return Fail(error: error).eraseToAnyPublisher()
     } else {
@@ -74,7 +90,7 @@ class MockGameRepository: GameRepositoryProtocol {
     }
   }
 
-  func getFavorites() -> AnyPublisher<[GameModel], Error> {
+  func getFavorites() -> AnyPublisher<[GameDomainModel], Error> {
       if let error = errorToReturn {
         return Fail(error: error).eraseToAnyPublisher()
       } else {

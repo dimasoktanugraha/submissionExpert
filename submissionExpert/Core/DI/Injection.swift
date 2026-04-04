@@ -55,7 +55,7 @@ final class Injection: NSObject {
     return Interactor(repository: repository)
   }
   
-  func provideFavoriteDetail() -> FavoriteInteractor {
+  func provideFavoriteDetail() -> FavoriteInteractor<FavoritesLocaleDataSource> {
     let locale = FavoritesLocaleDataSource(realm: realm!)
     let mapper = FavoriteTransformer()
     let repository = FavoritesRepository(localeDataSource: locale, mapper: mapper)
